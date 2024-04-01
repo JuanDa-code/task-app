@@ -55,7 +55,6 @@ export class HomePage implements OnInit {
 
     let sub = this.firebaseSvc.getSubcollection(path, 'tasks').subscribe({
       next: (res: Task[]) => {
-        console.log(res);
         this.tasks = res;
         sub.unsubscribe();
         this.loading = false;
