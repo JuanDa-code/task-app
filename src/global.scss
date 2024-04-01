@@ -76,6 +76,15 @@ ion-button {
   --border-radius: 20px;
 }
 
+.empty {
+  opacity: 30%;
+  text-align: center;
+
+  ion-icon {
+    font-size: 130px;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .add-update-modal {
     --height: 100%;

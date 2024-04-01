@@ -37,7 +37,7 @@
                       <ion-icon slot="end" name="eye-outline"></ion-icon>
                     </ion-button>
 
-                    <ion-button class="task-btn" mode="ios" color="danger" size="small">
+                    <ion-button (click)="confirmDeleteTask(task)" class="task-btn" mode="ios" color="danger" size="small">
                       Eliminar Tarea
                       <ion-icon slot="end" name="trash-outline"></ion-icon>
                     </ion-button>
@@ -46,6 +46,27 @@
               </ion-row>
             </ion-grid>
           </ion-card>
+        </ion-col>
+      </ion-row>
+      <!-- =========== Cargando Tareas... =========== -->
+      <ion-row *ngIf="loading">
+        <ion-col *ngFor="let item of [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]" size-lg="6" size-md="6" size-sm="12" size="12">
+          <ion-card mode="ios">
+            <div *ngFor="let item of [1, 1, 1, 1]">
+              <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+            </div>
+
+            <div *ngFor="let item of [1, 1, 1, 1]">
+              <ion-skeleton-text animated style="width: 40%"></ion-skeleton-text>
+            </div>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <!-- =========== No hay tareas =========== -->
+      <ion-row *ngIf="!loading && !tasks.length">
+        <ion-col class="empty" size="12">
+          <ion-icon name="create-outline"></ion-icon>
+          <h4>No tienes tareas</h4>
         </ion-col>
       </ion-row>
     </ion-grid>

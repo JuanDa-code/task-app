@@ -36,6 +36,77 @@ export class AddUpdateTaskComponent  implements OnInit {
     }
   }
 
+  // ================= Crear o Actualizar Tarea =========================
+  submit() {
+    if(this.form.valid) {
+      if (this.task) {
+        this.updateTask();
+      } else {
+        this.createTask();
+      }
+    }
+  }
+
+  // ================= Crear Tarea =========================
+  createTask() {
+    let path = `users/${this.user.uid}`;
+
+    this.utilsSvc.presentLoading();
+    delete this.form.value.id;
+
+    this.firebaseSvc.addSubcollection(path, 'tasks', this.form.value).then(res => {
+      this.utilsSvc.dismissModal({ success: true });
+
+      this.utilsSvc.presentToast({
+        message: 'Tarea creada exitosamente.',
+        color: 'success',
+        icon: 'checkmark-circle-outline',
+        duration: 1500
+      });
+
+      this.utilsSvc.dismissLoading()
+    }, error => {
+      this.utilsSvc.presentToast({
+        message: error,
+        color: 'warning',
+        icon: 'alert-circle-outline',
+        duration: 5000
+      });
+
+      this.utilsSvc.dismissLoading()
+    });
+  }
+
+  // ================= Actualizar Tarea =========================
+  updateTask() {
+    let path = `users/${this.user.uid}/tasks/${this.task.id}`;
+
+    this.utilsSvc.presentLoading();
+    delete this.form.value.id;
+
+    this.firebaseSvc.updateDocument(path, this.form.value).then(res => {
+      this.utilsSvc.dismissModal({ success: true });
+
+      this.utilsSvc.presentToast({
+        message: 'Tarea actualizada exitosamente.',
+        color: 'success',
+        icon: 'checkmark-circle-outline',
+        duration: 1500
+      });
+
+      this.utilsSvc.dismissLoading()
+    }, error => {
+      this.utilsSvc.presentToast({
+        message: error,
+        color: 'warning',
+        icon: 'alert-circle-outline',
+        duration: 5000
+      });
+
+      this.utilsSvc.dismissLoading()
+    });
+  }
+
   getPercentage() {
     return this.utilsSvc.getPercentage(this.form.value as Task);
   }
@@ -47,7 +118,7 @@ export class AddUpdateTaskComponent  implements OnInit {
 
   removeItem(index: number) {
     this.form.value.items.splice(index, 1);
-    this.form.updateValueAndValidity();
+    this.form.controls.items.updateValueAndValidity();
   }
 
   createItem() {
@@ -73,7 +144,7 @@ export class AddUpdateTaskComponent  implements OnInit {
             let item: Item = { name: res.name, completed: false }
             this.form.value.items.push(item);
 
-            this.form.updateValueAndValidity();
+            this.form.controls.items.updateValueAndValidity();
           }
         }
       ]
