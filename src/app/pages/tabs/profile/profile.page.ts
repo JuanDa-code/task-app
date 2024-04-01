@@ -40,7 +40,7 @@ export class ProfilePage implements OnInit {
         }, {
           text: 'Sí, cerrar',
           handler: () => {
-            this.firebaseSvc.signOut();;
+            this.firebaseSvc.signOut();
           }
         }
       ]
